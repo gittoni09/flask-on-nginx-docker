@@ -1,0 +1,96 @@
+{% extends "layout.html" %}
+{% block body %}
+
+<script>
+	function Verifier()
+		{
+		//Retrieves the value of the number just submitted
+		var player_value = document.getElementById("newNumber").value;
+		  
+		//Clear the canvas
+		ctx.clearRect(0,0,350,100);
+		//Verifies the value submitted by the player
+		if (player_value == Nm)
+		{
+		//Increment the number of guesses
+		tries = tries +1; 
+		//Number guessed
+			displ = " You found it in " + tries + " guess(es)!";
+			document.getElementById("newNumber").disabled=true;
+			document.getElementById("mySubmit").disabled=true;
+		}
+		else if (player_value <	Nm && player_value > low)
+		{
+			//Increment the number of guesses
+			tries = tries +1; 
+			//New low
+			low = player_value;
+			displ = low + " [ " + " ] " + high;
+		}
+		else if (player_value >	Nm && player_value < high)
+		{
+			//Increment the number of guesses
+			tries = tries +1; 
+			//New high
+			high = player_value;
+			displ = low + " [ " + " ] " + high;
+		} else
+		{
+		    //The provided number is under the low or above the high
+			displ = low + " [ " + " ] " + high;
+		}
+		ctx.fillText(displ,10,50);
+		document.getElementById("newNumber").value="";
+		}
+</script>
+<script type="text/javascript" src="{{ url_for('static', filename='dataman.js') }}"></script>
+<script>
+
+	var Nm = NumGen(100);
+	var low = 0;
+	var high = 100;
+	var displ = "";
+	var tries = 0;
+
+</script>
+<p><h1>Number Guesser</h1></p>
+
+<div id="canvas_block">
+<canvas id="myCanvas" width="350" height="100" style="border:1px solid #d3d3d3; text-align:center;">
+Your browser does not support the HTML5 canvas tag.</canvas>
+
+<script>
+
+	var c=document.getElementById("myCanvas");
+	var ctx=c.getContext("2d");
+	ctx.font="25px Arial";
+	displ = low + " [  " + "  ] " + high;
+	ctx.fillText(displ,10,50);
+
+	document.body.onkeypress = function (event) {
+     event = event || window.event;
+     if (event.keyCode == 13) {
+         document.getElementById("mySubmit").click(); 
+         return false;
+     }
+     return true;
+    }
+</script>
+
+</div>
+<div id="button_block">
+<p>
+New number: <br>
+<input type="text" id="newNumber" autofocus><br>
+<button type="button" id="mySubmit" onclick= Verifier()> Submit</button><br>
+</p>
+</div>
+
+<div id="instructions_blocl">
+<hr>
+<p>
+<h3>Instructions:</h3>Find out the secret number in as few guesses as possible. To play again or just restart the game press F5 to reload the page
+</p>
+</div/
+
+{% endblock %}

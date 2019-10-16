@@ -12,6 +12,7 @@ RUN apt-get -y install nginx \
     && apt-get -y install build-essential
 
 RUN pip install -r requirements.txt --src /usr/local/src
+RUN chown root:www-data /srv/flask_app/static  
 
 COPY nginx.conf /etc/nginx
 RUN chmod +x ./start.sh
